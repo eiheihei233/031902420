@@ -1,11 +1,15 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Control {
 
     public static void main(String[] args) throws IOException {
+        ArrayList<Answer> answerArrayList;
         String org = "D:\\codeMade\\idea\\031902420\\org.txt";
         String words = "D:\\codeMade\\idea\\031902420\\words.txt";
+        String answer = "D:\\codeMade\\idea\\031902420\\answer.txt";
+        String charset = "UTF-8";
         File orgFile = TxtRead.readTxtFile(org);
         File wordsFile = TxtRead.readTxtFile(words);
         ArrayList<FileLine> fileLineArrayList = new ArrayList<>();   //用于存放文章每一行的数组
@@ -34,7 +38,22 @@ public class Control {
             }
             read.close(); //读取完毕
             SeekFunction seekFunction = new SeekFunction(fileLineArrayList, maskWordsArrayList);
-            seekFunction.seek();
+            answerArrayList = seekFunction.seek();
+            FileOutputStream outputStream = new FileOutputStream(answer);
+            OutputStreamWriter writer = new OutputStreamWriter(outputStream, charset);
+            try{
+                String str1 = Integer.toString(Answer.getTotal());
+                writer.write("Total: " + str1);
+                writer.write("\n");
+                for (int i = 0; i < answerArrayList.size(); i++) {
+                    String str = "Line" + answerArrayList.get(i).getLine() + ": <" + answerArrayList.get(i).getMaskWord() + "> " + answerArrayList.get(i).getFileLine();
+                    writer.write(str);
+                    writer.write("\n");
+                }
+
+            } finally {
+                writer.close();
+            }
         }else{
             System.out.println("读取错误");
         }

@@ -100,17 +100,6 @@ public class ChineseChange {
             "zhao", "zhe", "zhen", "zheng", "zhi", "zhong", "zhou", "zhu",
             "zhua", "zhuai", "zhuan", "zhuang", "zhui", "zhun", "zhuo", "zi",
             "zong", "zou", "zu", "zuan", "zui", "zun", "zuo" };
-    private StringBuilder buffer;
-    private String resource;
-    private final static ChineseChange chineseSpelling = new ChineseChange();
-
-    public static ChineseChange getInstance() {
-        return chineseSpelling;
-    }
-
-    public void setResource(String resource) {
-        this.resource = resource;
-    }
 
     private int getChsAscii(String chs) {
         int asc = 0;
@@ -119,7 +108,6 @@ public class ChineseChange {
             if (bytes == null || bytes.length > 2 || bytes.length <= 0) { // 错误
                 // log
                 throw new RuntimeException("illegal resource string");
-                // System.out.println("error");
             }
             if (bytes.length == 1) { // 英文字符
                 asc = bytes[0];
@@ -133,40 +121,15 @@ public class ChineseChange {
             System.out
                     .println("ERROR:ChineseSpelling.class-getChsAscii(String chs)"
                             + e);
-            // e.printStackTrace();
         }
         return asc;
     }
-    /**
-     * 转换单个汉字
-     *
-     * @param str
-     * @return
-     */
-    public String convert(String str) {
-        String result = null;
-        int ascii = getChsAscii(str);
-        if (ascii > 0 && ascii < 160) {
-            result = String.valueOf((char) ascii);
-        } else {
-            for (int i = (pyvalue.length - 1); i >= 0; i--) {
-                if (pyvalue[i] <= ascii) {
-                    result = pystr[i];
-                    break;
-                }
-            }
-        }
-        return result;
-    }
-    /**
+    /*
      * 转换一个或多个汉字
-     *
-     * @param str
-     * @return
      */
     public String convertAll(String str) {
         String result = "";
-        String strTemp = null;
+        String strTemp;
         for (int j = 0; j < str.length(); j++) {
             strTemp = str.substring(j, j + 1);
             int ascii = getChsAscii(strTemp);
@@ -183,36 +146,10 @@ public class ChineseChange {
         }
         return result;
     }
-    public String getSelling(String chs) {
-        String key, value;
-        buffer = new StringBuilder();
-        for (int i = 0; i < chs.length(); i++) {
-            key = chs.substring(i, i + 1);
-            if (key.getBytes().length == 2) {
-                value = (String) convert(key);
-                if (value == null) {
-                    value = "unknown";
-                }
-            } else {
-                value = key;
-            }
-            buffer.append(value);
-        }
-        return buffer.toString();
-    }
 
-    /**
-     * 转换为拼音
-     * @param str
-     * @return
-     */
-    public static String trans2PinYin(String str) {
-        return ChineseChange.getInstance().convertAll(str);
-    }
-    public static void main(String[] args) {
-        String str = "草";
-        //String strPinYin = new Trans2PinYin().convertAll(str);
-        String strPinYin = trans2PinYin(str);
-        System.out.println(strPinYin);
-    }
+//    public static void main(String[] args) {
+//        String str = "！@#%￥……&*（&法轮工";
+//        String strPinYin = new ChineseChange().convertAll(str);
+//        System.out.println(strPinYin);
+//    }
 }

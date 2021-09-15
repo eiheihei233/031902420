@@ -1,7 +1,3 @@
-/*
- * 对文件进行输入
- */
-
 import java.io.File;
 
 public class TxtRead {
