@@ -149,7 +149,7 @@ public class ChineseChange {
 
 //    public static void main(String[] args) {
 //        String str = "！@#%￥……&*（&法轮工";
-//        String strPinYin = new ChineseChange().convertAll(str);
+//        String strPinYin = new Fzu.ChineseChange().convertAll(str);
 //        System.out.println(strPinYin);
 //    }
 }

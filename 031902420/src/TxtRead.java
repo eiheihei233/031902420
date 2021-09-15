@@ -1,16 +1,16 @@
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 
 public class TxtRead {
 
-        public static File readTxtFile(String filePath){
+        public static BufferedReader readTxtFile(String filePath){
             try {
-                File file=new File(filePath);
-                if(file.isFile() && file.exists()){   //判断文件是否存在
-                    return file;
+                BufferedReader br = new BufferedReader(new InputStreamReader(
+                        new FileInputStream(new File(filePath)), "UTF-8")); // read encoding
+                return br;
 
-                }else{
-                    System.out.println("找不到指定的文件");
-                }
             } catch (Exception e) {
                 System.out.println("读取文件内容出错");
                 e.printStackTrace();
