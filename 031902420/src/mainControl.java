@@ -5,9 +5,9 @@ public class mainControl {
 
     public static void main(String[] args) throws IOException {
         ArrayList<Answer> answerArrayList;
-        String org = args[1] ; //待检测文件   args[1]
-        String words = args[0]; //敏感词词汇文件  args[0]
-        String answer = args[2]; //答案文件  args[2]
+        String org = args[1] ; //待检测文件   args[1]  "D:\\codeMade\\idea\\031902420\\org.txt"
+        String words = args[0]; //敏感词词汇文件  args[0]  "D:\\codeMade\\idea\\031902420\\words.txt"
+        String answer = args[2]; //答案文件  args[2]  "D:\\codeMade\\idea\\031902420\\answer.txt"
         String charset = "UTF-8";
         BufferedReader orgFile = TxtRead.readTxtFile(org);
         BufferedReader wordsFile = TxtRead.readTxtFile(words);

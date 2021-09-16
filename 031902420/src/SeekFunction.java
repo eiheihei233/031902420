@@ -4,7 +4,7 @@ public class SeekFunction {
 
     private final ArrayList<FileLine> fileLineArrayList;
     private final ArrayList<MaskWords> maskWordsArrayList;
-    private ArrayList<Answer> answerArrayList = new ArrayList<>();
+    private final ArrayList<Answer> answerArrayList = new ArrayList<>();
 
     public SeekFunction(ArrayList<FileLine> fileLineArrayList,ArrayList<MaskWords> maskWordsArrayList) {
         this.fileLineArrayList = fileLineArrayList;
@@ -88,6 +88,8 @@ public class SeekFunction {
                                 maxChar = k + maskStr1.length() - 1;
                             }
                         }
+                        //拼音的缩写 未完成
+                        //偏旁部首  未完成
                     }
                     if (value == maskLength || value1 == maskStr1.length()) { //样例输出
                         Answer answer = new Answer();

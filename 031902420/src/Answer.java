@@ -1,9 +1,9 @@
 public class Answer {
 
-    private int line;
-    private static int total = 0;
-    private String fileLine;
-    private String maskWord;
+    private int line;   //屏蔽字所在行数
+    private static int total = 0;  //屏蔽字总数
+    private String fileLine;   //屏蔽字在原文中的显示
+    private String maskWord;  //屏蔽字
 
     public static int getTotal() {
         return total;
