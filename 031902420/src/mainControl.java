@@ -23,7 +23,7 @@ public class mainControl {
                 fileLine.setLine(i + 1);
                 fileLineArrayList.add(fileLine);
             }
-            for (;;) { //将屏蔽词的每一方数据分别进行存储
+            for (;;) { //将屏蔽词的每一行数据分别进行存储
                 String maskWordLine = wordsFile.readLine();
                 if (maskWordLine == null) break;
                 MaskWords maskWord = new MaskWords();

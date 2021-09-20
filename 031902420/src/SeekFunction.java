@@ -22,44 +22,44 @@ public class SeekFunction {
                 if ((maskStr.charAt(0) >= 'a' && maskStr.charAt(0) <= 'z') || (maskStr.charAt(0) >= 'A' && maskStr.charAt(0) <= 'Z')) {  //屏蔽字为英文
                     int minChar = 0;
                     int maxChar = fileLength - 1;
-                    int value = 1;
+                    int value;  // 用于存放字符匹配个数
                     for (int k = 0; k < fileLength; k++) {
-                        if (maskStr.toUpperCase().charAt(0) == fileStr.toUpperCase().charAt(k)) {
+                        value = 0;
+                        if (maskStr.toUpperCase().charAt(value) == fileStr.toUpperCase().charAt(k)) {
                             minChar = k;  //找到起始位置
+                            value = 1;
                             for (int l = k + 1; l < fileLength; l++) {
-                                if(fileStr.charAt(l) == maskStr.charAt(0)){
+                                if(fileStr.toUpperCase().charAt(l) == maskStr.toUpperCase().charAt(0)){  // 起始位置的变动
                                     minChar = l;
                                 }
-                                if(fileStr.charAt(l) == maskStr.charAt(value)){
+                                if(fileStr.toUpperCase().charAt(l) == maskStr.toUpperCase().charAt(value)){
                                     value++;
                                 }
-                                if(fileStr.charAt(l) == maskStr.charAt(maskLength - 1)){
+                                if(fileStr.toUpperCase().charAt(l) == maskStr.toUpperCase().charAt(maskLength - 1)){
                                     maxChar = l;
                                     break;
                                 }
                             }
-                            break;
+                        }
+                        if (value == maskLength) { //样例输出
+                            Answer answer = new Answer();
+                            Answer.setTotal(Answer.getTotal() + 1);
+                            answer.setLine(fileNumber);
+                            answer.setMaskWord(maskStr);
+                            answer.setFileLine(fileStr.substring(minChar,maxChar + 1));
+                            answerArrayList.add(answer);
                         }
                     }
-                    if (value == maskLength) { //样例输出
-                        /*
-                         * 在这里要进行文件的输出
-                         */
-                        Answer answer = new Answer();
-                        Answer.setTotal(Answer.getTotal() + 1);
-                        answer.setLine(fileNumber);
-                        answer.setMaskWord(maskStr);
-                        answer.setFileLine(fileStr.substring(minChar,maxChar + 1));
-                    }
 
-                } else { // 屏蔽字为中文
+                }else { // 屏蔽字为中文
                     int minChar = 0; //屏蔽字的开始位置
                     int maxChar = fileLength - 1;  //屏蔽字的结束位置
-                    int value = 0;
-                    int value1 = 0;
-                    String maskStr1 = new ChineseChange().convertAll(maskStr);
+                    int value;   // 用于存放字符匹配个数
                     for (int k = 0; k < fileLength; k++) {
-                        if (maskStr.charAt(0) == fileStr.charAt(k) ) {  //和屏蔽字相同,中间会有特殊字符
+                        value = 0;
+                        String maskCharString = maskStr.substring(value,value + 1); //将屏蔽字的每一个字分开
+
+                        if (maskCharString.charAt(0) == fileStr.charAt(k) ) {  //和屏蔽字相同,中间会有特殊字符
                             minChar = k;
                             value = 1;
                             for (int l = k + 1; l < fileLength; l++) {
@@ -74,30 +74,18 @@ public class SeekFunction {
                                     break;
                                 }
                             }
-                            break;
                         }
-                        if(maskStr1.toUpperCase().charAt(0) == fileStr.toUpperCase().charAt(k)){  //拼音全相同
-                            minChar = k;
-                            value1 = 1;
-                            for (int i = 1; i < maskStr1.length() && (i + k) < fileLength; i++) {
-                                if (maskStr1.toUpperCase().charAt(i) == fileStr.toUpperCase().charAt(k + i)){
-                                    value1++;
-                                }
-                            }
-                            if(value1 == maskStr1.length()) {
-                                maxChar = k + maskStr1.length() - 1;
-                            }
-                        }
+
                         //拼音的缩写 未完成
                         //偏旁部首  未完成
-                    }
-                    if (value == maskLength || value1 == maskStr1.length()) { //样例输出
-                        Answer answer = new Answer();
-                        Answer.setTotal(Answer.getTotal() + 1);
-                        answer.setLine(fileNumber);
-                        answer.setMaskWord(maskStr);
-                        answer.setFileLine(fileStr.substring(minChar,maxChar + 1));
-                        answerArrayList.add(answer);
+                        if (value == maskLength) { //样例输出
+                            Answer answer = new Answer();
+                            Answer.setTotal(Answer.getTotal() + 1);
+                            answer.setLine(fileNumber);
+                            answer.setMaskWord(maskStr);
+                            answer.setFileLine(fileStr.substring(minChar,maxChar + 1));
+                            answerArrayList.add(answer);
+                        }
                     }
                 }
             }
