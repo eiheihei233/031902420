@@ -58,15 +58,34 @@ public class SeekFunction {
                     for (int k = 0; k < fileLength; k++) {
                         value = 0;
                         String maskCharString = maskStr.substring(value,value + 1); //将屏蔽字的每一个字分开
-
-                        if (maskCharString.charAt(0) == fileStr.charAt(k) ) {  //和屏蔽字相同,中间会有特殊字符
+                        String maskPinYin = new ChineseChange().convertAll(maskCharString); //将关键字变成拼音
+                        int flag = 0; //关键字拼音匹配个数
+                        for (int i = 0; i < maskPinYin.length(); i++) {
+                            if(i + k >= fileLength) break; //防止越界
+                            if (maskPinYin.toLowerCase().charAt(i) == fileStr.toLowerCase().charAt(i + k)){
+                                flag++;
+                            }
+                        }
+                        //   屏蔽字和原文相同                                   屏蔽字拼音和原文相同              屏蔽字拼音缩写和原文相同
+                        if (maskCharString.charAt(value) == fileStr.charAt(k) || flag == maskPinYin.length() || maskPinYin.toLowerCase().charAt(0) == fileStr.toLowerCase().charAt(k) ) {
                             minChar = k;
                             value = 1;
+                            char pri = maskPinYin.charAt(0);
                             for (int l = k + 1; l < fileLength; l++) {
-                                if(fileStr.charAt(l) == maskStr.charAt(0)){
-                                    minChar = l;
+                                maskCharString = maskStr.substring(value,value + 1);
+                                maskPinYin = new ChineseChange().convertAll(maskCharString);
+                                int flag1 = 0;
+                                for (int i = 0; i < maskPinYin.length(); i++) {
+                                    if (i + l >= fileStr.length()) break;
+                                    if (maskPinYin.toLowerCase().charAt(i) == fileStr.toLowerCase().charAt(i + l)){
+                                        flag1++;
+                                    }
                                 }
-                                if(fileStr.charAt(l) == maskStr.charAt(value)){
+                                if(fileStr.charAt(l) == maskStr.charAt(0) || fileStr.toLowerCase().charAt(l) == pri){
+                                    minChar = l;
+                                    value = 1;
+                                }
+                                if(fileStr.charAt(l) == maskStr.charAt(value) || maskPinYin.toLowerCase().charAt(0) == fileStr.toLowerCase().charAt(k)){
                                     value++;
                                 }
                                 if(fileStr.charAt(l) == maskStr.charAt(maskLength - 1)){
